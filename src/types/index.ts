@@ -151,20 +151,28 @@ export type AssetType = 'agent' | 'multiAgent' | 'workflow' | 'group';
 // 消息类型（用于多智能体和群组对话）
 export interface Message {
   id: string;
-  senderId: string; // Agent ID
-  senderName: string;
+  role: 'user' | 'assistant' | 'system';
   content: string;
   timestamp: Date;
+  senderId?: string; // Agent ID (for multi-agent/group conversations)
+  senderName?: string;
   mentions?: string[]; // 提及的智能体 IDs
   metadata?: Record<string, any>;
 }
 
+// 资源类型
+export type ResourceType = 'agent' | 'multi-agent' | 'workflow' | 'group';
+
 // 对话会话
 export interface Conversation {
   id: string;
-  assetId: string;
-  assetType: AssetType;
+  resourceId: string;
+  resourceType: ResourceType;
   messages: Message[];
   createdAt: Date;
   updatedAt: Date;
 }
+
+// 导出别名以保持向后兼容
+export type Group = AgentGroup;
+export type Workflow = AgentWorkflow;
